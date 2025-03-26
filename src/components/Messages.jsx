@@ -10,7 +10,8 @@ const Messages = () => {
 
   useEffect(() => {
     let unSub; // Declare unSub variable
-    if (data.chatId) { // Check if chatId is defined
+    if (data.chatId) {
+      // Check if chatId is defined
       unSub = onSnapshot(doc(db, "chats", data.chatId), (doc) => {
         doc.exists() && setMessages(doc.data().messages);
       });
