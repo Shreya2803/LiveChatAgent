@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../firebase";
 import { setDoc, doc } from "firebase/firestore";
-import { useNavigate , Link} from "react-router-dom";
-
+import { useNavigate, Link } from "react-router-dom";
+import { runTransaction } from "firebase/firestore";
 // Sample avatar images
 const avatarOptions = [
   "/avatars/Avatar1.jpg",
@@ -17,7 +17,6 @@ const avatarOptions = [
   "/avatars/Avatar9.jpg",
   "/avatars/Avatar10.jpg",
 ];
-
 
 const Register = () => {
   const [avatar, setAvatar] = useState(null);
@@ -34,8 +33,8 @@ const Register = () => {
     setShowAvatarSelection(false);
   };
 
-    const handleSubmit = async (e) => {
-        // console.log("Selected Avatar:", avatar); // Log the selected avatar
+  const handleSubmit = async (e) => {
+    // console.log("Selected Avatar:", avatar); // Log the selected avatar
 
     e.preventDefault();
     const username = e.target[0].value;
@@ -49,20 +48,42 @@ const Register = () => {
         photoURL: avatar || "/avatars/Avatar1.jpg",
       });
 
-      await setDoc(doc(db, "users", res.user.uid), {
-        role: "user", // Add this line to assign the role
+      //     await setDoc(doc(db, "users", res.user.uid), {
+      //       role: "user", // Add this line to assign the role
 
-        uid: res.user.uid,
-        displayName: username,
-        email,
-        photoURL: avatar || "/avatars/Avatar1.jpg",
+      //       uid: res.user.uid,
+      //       displayName: username,
+      //       email,
+      //       photoURL: avatar || "/avatars/Avatar1.jpg",
+      //     });
+      //     await setDoc(doc(db, "userChats", res.user.uid), {});
+      //     navigate("/login");
+      //   } catch (error) {
+      //     console.log(err);
+      //     setErr(true); // Set error state on failure
+      //     console.error("Registration error:", error);
+      //   }
+      // };
+
+      await runTransaction(db, async (transaction) => {
+        const userRef = doc(db, "users", res.user.uid);
+        const userChatsRef = doc(db, "userChats", res.user.uid);
+
+        transaction.set(userRef, {
+          uid: res.user.uid,
+          displayName: username,
+          email,
+          photoURL: avatar || "/avatars/Avatar1.jpg",
+          role: "user",
+        });
+
+        transaction.set(userChatsRef, {});
       });
-      await setDoc(doc(db, "userChats", res.user.uid), {});
-      navigate("/");
+
+      navigate("/login");
     } catch (error) {
-      console.log(err);
-      setErr(true); // Set error state on failure
       console.error("Registration error:", error);
+      setErr(true);
     }
   };
 
@@ -80,14 +101,24 @@ const Register = () => {
           <div className="avatar-selection-container">
             <span className="avatar-text">Select Your Avatar:</span>
             <div className="avatar-container" onClick={handleAvatarClick}>
-              <img src={avatar || "/avatars/Avatar1.jpg"} alt="Avatar" className="avatar-preview" />
+              <img
+                src={avatar || "/avatars/Avatar1.jpg"}
+                alt="Avatar"
+                className="avatar-preview"
+              />
             </div>
           </div>
 
           {showAvatarSelection && (
             <div className="avatar-selection">
               {avatarOptions.map((av, index) => (
-                <img key={index} src={av} alt={`Avatar ${index}`} className="avatar-option" onClick={() => handleSelectAvatar(av)} />
+                <img
+                  key={index}
+                  src={av}
+                  alt={`Avatar ${index}`}
+                  className="avatar-option"
+                  onClick={() => handleSelectAvatar(av)}
+                />
               ))}
             </div>
           )}
@@ -95,7 +126,12 @@ const Register = () => {
           <button type="submit">Sign Up</button>
           {err && <span>Something Went Wrong</span>}
         </form>
-        <p>Already have an account? <Link to="/login"style={{ color: 'red' }}>Login</Link></p>
+        <p>
+          Already have an account?{" "}
+          <Link to="/login" style={{ color: "red" }}>
+            Login
+          </Link>
+        </p>
       </div>
     </div>
   );

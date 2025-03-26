@@ -3,7 +3,13 @@ import Attach from "../images/attach.png";
 import Img from "../images/img.png";
 import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
-import { arrayUnion, doc, serverTimestamp, Timestamp, updateDoc } from "firebase/firestore";
+import {
+  arrayUnion,
+  doc,
+  serverTimestamp,
+  Timestamp,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../firebase";
 import { v4 as uuid } from "uuid";
 const Input = () => {
