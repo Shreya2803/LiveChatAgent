@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React , { useState } from 'react';
 import { useNavigate, Link } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
@@ -13,37 +13,30 @@ const Login = () => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate("/");
+      navigate("/")
     } catch (err) {
       setErr(true);
     }
   };
   return (
-    <div className="formContainer">
-      <div className="formWrapper">
+    <div className ="formContainer">
+        <div className = "formWrapper">
         <span className="logo">Hope Buddy</span>
         <span className="title">Log In</span>
-        <form onSubmit={handleSubmit}>
-          <input type="email" placeholder="Email"></input>
-          <input type="password" placeholder="Password"></input>
-          <button>Login</button>
+            <form onSubmit={handleSubmit}>
+                
+                <input type="email"placeholder="Email"></input>
+                <input type="password"placeholder="Password"></input>
+                <button>Login</button>
 
-          {err && <span>Something went wrong</span>}
-        </form>
-        <p>
-          {" "}
-          Don't have an account ? <a href="/register">Register Here </a>{" "}
-        </p>
-        <p>
-          {" "}
-          Forgot Password?{" "}
-          <Link to="/resetpassword">
-            <b>Click Here!</b>
-          </Link>
-        </p>
-      </div>
+                {err && <span>Something went wrong</span>}
+            </form>
+            <p> Don't have an account ? <a href="/register">Register Here </a>  </p>
+<p> Forgot Password? <Link to="/resetpassword"><b>Click Here!</b></Link></p>
+
+        </div>
     </div>
-  );
-};
+  )
+}
 
 export default Login;
