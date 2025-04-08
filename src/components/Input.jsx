@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
-import Attach from "../images/attach.png";
-import Img from "../images/img.png";
+// import Attach from "../images/attach.png";
+// import Img from "../images/img.png";
 import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
 import { arrayUnion, doc, serverTimestamp, Timestamp, updateDoc } from "firebase/firestore";
@@ -46,6 +46,12 @@ const Input = () => {
         placeholder="Type something..."
         onChange={(e) => setText(e.target.value)}
         value={text}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            handleSend();
+          }
+        }}
       />
       <div className="send">
         <button onClick={handleSend}>Send</button>
