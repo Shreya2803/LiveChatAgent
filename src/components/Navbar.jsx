@@ -8,26 +8,21 @@ const Navbar = () => {
 
   return (
     <div className="navbar">
+      
       <div className="user">
         {currentUser && (
           <>
-            <img
-              src={currentUser.photoURL || "/avatars/Avatar1.jpg"}
-              alt="User Avatar"
-              className="user-avatar"
-            />
+            <img src={currentUser.photoURL || "/avatars/Avatar1.jpg"} alt="User Avatar" className="user-avatar" />
             <span>{currentUser.displayName}</span>
+            
           </>
         )}
       </div>
-      <button onClick={() => signOut(auth)}>Logout</button>
+      <button onClick={() => signOut(auth)}> Exit </button>
     </div>
   );
 };
 
 export default Navbar;
-
-
-
 
 

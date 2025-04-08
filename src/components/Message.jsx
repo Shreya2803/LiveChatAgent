@@ -12,7 +12,6 @@ const Message = ({ message }) => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   }, [message]);
 
-  // Convert Firebase Timestamp to formatted time (e.g., 1:54 am)
   const formatTime = (timestamp) => {
     if (!timestamp?.seconds) return "";
     const date = new Date(timestamp.seconds * 1000);
@@ -23,25 +22,35 @@ const Message = ({ message }) => {
     });
   };
 
+  // Default image if no photoURL
+  const getAvatarSrc = () => {
+    const photoURL =
+      message.senderId === currentUser.uid
+        ? currentUser.photoURL
+        : data.user.photoURL;
+
+    return photoURL || "/images/ChatbotAdmin.jpg"; // Adjust path if needed
+  };
+
   return (
     <div
       ref={ref}
-      className={`message ${message.senderId === currentUser.uid && "owner"}`}
+      className={`message ${message.senderId === currentUser.uid ? "owner" : ""}`}
     >
       <div className="messageInfo">
         <img
-          src={
-            message.senderId === currentUser.uid
-              ? currentUser.photoURL
-              : data.user.photoURL
-          }
-          alt=""
+          src={getAvatarSrc()}
+          alt="avatar"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = "/avatars/ChatbotAdmin.jpg"; // fallback path
+          }}
         />
-        <span>{formatTime(message.date)}</span> {/* Display formatted time */}
+        <span>{formatTime(message.date)}</span>
       </div>
       <div className="messageContent">
         <p>{message.text}</p>
-        {message.img && <img src={message.img} alt="" />}
+        {message.img && <img src={message.img} alt="message attachment" />}
       </div>
     </div>
   );

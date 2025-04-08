@@ -13,7 +13,17 @@
     @content;
   }
 }
-
+.body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f0f2f5;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 .formContainer {
   background: linear-gradient(135deg ,#153677 , #4e085f);
   height: 100vh;
@@ -29,6 +39,7 @@
     flex-direction: column;
     gap: 10px;
     align-items: center;
+    
 
     .logo {
       color: #be2555;
@@ -57,6 +68,7 @@
         }
       }
       .avatar-selection-container {
+        
         display: flex;
         align-items: center;
         gap: 55px;
@@ -89,6 +101,7 @@
         grid-template-columns: repeat(5, 1fr); /* 5 avatars per row */
         gap: 15px;
         padding: 15px;
+       
         width: 300px; 
         height: 150px;
         border: 1px solid #ddd;
@@ -97,6 +110,9 @@
         background: white;
         justify-content: center;
         align-items: center;
+        top: 55%; /* Center vertically */
+left: 50%; /* Center horizontally */
+transform: translate(-50%, -50%); /* Adjust position to center */
       }
       
       .avatar-option {
@@ -148,6 +164,7 @@
 .home {
   background-color: #a7bcff;
   height: 100vh;
+  width: 100vw;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -155,20 +172,21 @@
   .container {
     border: 1px solid white;
     border-radius: 10px;
-    width: 65%;
-    height: 80%;
+    width: 95%;
+    height: 90%;
     display: flex;
     overflow: hidden;
     @include tablet {
      width: 90%;
     }
-
+    
     .sidebar {
-      flex: 1;
+      flex: 4;
       background-color: #3e3c61;
       position: relative;
       overflow: auto;
-
+      
+    
       .navbar {
         display: flex;
         align-items: center;
@@ -238,7 +256,7 @@
           }
         }
       }
-
+      
       .userChat {
         padding: 10px;
         display: flex;
@@ -263,27 +281,87 @@
           span {
             font-size: 18px;
             font-weight: 500;
+           
           }
           p {
             font-size: 14px;
             color: rgb(246, 249, 250);
           }
+          .hopeBuddyButton {
+            background-color: rgb(239, 37, 37); /* Red background */
+            color: white; /* White font color */
+            padding: 10px 20px; /* Padding for the button */
+            border-radius: 5px; /* Rounded corners */
+            border: none; /* Remove border */
+            cursor: pointer; /* Pointer cursor on hover */
+            font-size: 16px; /* Font size */
+          }
+          
+          .hopeBuddyButton:hover {
+            background-color: darkred; /* Darker red on hover */
+          }
+          @include laptop {
+            font-size: 15px;
+            padding: 8px 18px;
+          }
+        
+          @include tablet {
+            font-size: 10px;
+            padding: 6px 10px;
+          }
+        
+          @include mobile {
+            font-size: 8px;
+            padding: 4px 8px;
+          }
         }
       }
     }
+    .sidebar-hidden {
+      display: none;
+    }
+    .sidebar-hidden ~ .chat {
+      flex: 1 1 100%;
+    }
     .chat {
-      flex: 2;
+      // flex: 2;
+      flex: 4;
+display: flex;
+flex-direction: column;
+height: 100%; 
 
       .chatInfo {
         height: 50px;
-        background-color: #5d5b8d;
+        background-color: #3f3e67;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 10px;
-        color: white;
+        padding: 20px;
+        font-size: 20px;
+        color: rgb(255, 255, 255);
       }
-
+      .exitButton {
+        background-color: #e1614d;
+        color: white;
+        padding: 10px;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: all 0.3s ease-in-out;
+      }
+      
+      .exitButton:hover {
+        background-color: #040814; /* Darker shade on hover */
+        transform: translateY(-3px); /* Lift effect */
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* 3D shadow */
+      }
+      
+      .exitButton:active {
+        transform: translateY(1px); /* Depress effect */
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+      }
+      
       .chatIcons {
         display: flex;
         gap: 10px;
@@ -295,6 +373,7 @@
       }
 
       .messages {
+        
         background-color: #ddddf7;
         padding: 10px;
         height: calc(100% - 160px);
