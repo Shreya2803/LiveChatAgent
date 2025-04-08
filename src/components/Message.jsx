@@ -32,6 +32,30 @@ const Message = ({ message }) => {
     return photoURL || "/images/ChatbotAdmin.jpg"; // Adjust path if needed
   };
 
+  // ✅ Function to detect URLs and convert them to clickable links
+  const linkifyText = (text) => {
+    if (!text) return text;
+
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+
+    return text.split(urlRegex).map((part, i) => {
+      if (part.match(urlRegex)) {
+        return (
+          <a
+            key={i}
+            href={part}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="message-link"
+          >
+            {part}
+          </a>
+        );
+      }
+      return part;
+    });
+  };
+
   return (
     <div
       ref={ref}
@@ -49,7 +73,7 @@ const Message = ({ message }) => {
         <span>{formatTime(message.date)}</span>
       </div>
       <div className="messageContent">
-        <p>{message.text}</p>
+        <p>{linkifyText(message.text)}</p>
         {message.img && <img src={message.img} alt="message attachment" />}
       </div>
     </div>
