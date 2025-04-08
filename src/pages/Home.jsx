@@ -11,7 +11,7 @@ export default function HomeLayout() {
   const { currentUser } = useContext(AuthContext);
 
   // Define HopeBuddy UID
-  const hopeBuddyUid = "61cLLi3ci2PElVffvITtbsfRFc03";
+  const hopeBuddyUid = "XkXQ97ROGYNsXXTn7QgilSFqBHy2";
 
   // Check if the logged-in user is HopeBuddy
   const isHopeBuddy = currentUser?.uid === hopeBuddyUid;
